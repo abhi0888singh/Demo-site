@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wikipedia Viewer - NetaVerse</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      background: #0f172a;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #111827;
+      color: white;
+    }
+
+    .back-btn {
+      background: #3b82f6;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: white;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    iframe {
+      width: 100%;
+      height: calc(100vh - 50px);
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+  <span id="title">Wikipedia</span>
+</div>
+
+<iframe id="wikiFrame" title="Wikipedia page"></iframe>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get("name");
+
+  if (!name) {
+    document.getElementById("title").innerText = "Wikipedia";
+    document.getElementById("wikiFrame").src =
+      "https://en.m.wikipedia.org/wiki/Main_Page";
+  } else {
+    const decodedName = name.replace(/_/g, " ");
+    document.getElementById("title").innerText = decodedName;
+
+    document.getElementById("wikiFrame").src =
+      "https://en.m.wikipedia.org/wiki/" + encodeURIComponent(name);
+  }
+
+  function goBack() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = "index.html";
+    }
+  }
+</script>
+
+</body>
+</html>
